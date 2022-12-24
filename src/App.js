@@ -1,55 +1,30 @@
 import React from "react";
-import { MultiStepForm, Step } from "react-multi-form";
-import { questions } from "./questions";
-import { answers } from "./questions";
-var stepQuestions = questions.filter(
-  (question, index) => index % 2 === 1 && question
-);
+import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { selectUser } from "./Features/User/userSlice";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
+
 function App() {
-  const [active, setActive] = React.useState(1);
-  const [sum , setSum] = React.useState(new Array(48).fill(0));
-  React.useEffect(() => {
-    console.log(sum);
-    }, [sum])
+  const user = useSelector(selectUser);
   return (
     <React.Fragment>
-      <MultiStepForm activeStep={active}>
-        {stepQuestions.map((question, index) => {
-          return (
-            <Step label={index + 1}>
-              <h3 className="text-center">{question}</h3>
-              {Object.entries(answers).map(([key, value]) => {
-                        return <button className="answer-btn" onClick={()=>{
-                          let newArr = [...sum];
-                          newArr[index] = value;
-                          setSum(newArr);
-                          setActive(active + 1);
-                        }}>{value}</button>;
-                      })}
-              <div className="wrapper-button">
-              {
-                active!== 1&& (
-                  <button
-                className="previous-question"
-                onClick={() => setActive(active - 1)}
-              >
-                Prev
-              </button>
-                )
-              }
-              {active !== 48 && (
-                <button
-                  className="next-question"
-                  onClick={() => setActive(active + 1)}
-                >
-                  Next
-                </button>
-              )}
-              </div>
-            </Step>
-          );
-        })}
-      </MultiStepForm>
+      <Routes>
+        {user ? (
+          <React.Fragment>
+            <Route path="/" element={<Dashboard user={user} />} />
+            <Route path="/register" element={<Navigate to="/" />} />
+            <Route path="/login" element={<Navigate to="/" ></Navigate>} />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </React.Fragment>
+        )}
+      </Routes>
     </React.Fragment>
   );
 }

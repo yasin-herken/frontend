@@ -360,7 +360,7 @@ main {
   transition: var(--transition);
   cursor: pointer;
 }
-.previous-question {
+.prev-question {
   border-radius: 1rem;
   border-color: transparent;
   padding: 0.25rem 0.5rem;
@@ -479,4 +479,20 @@ Loading
 }
 .close-btn {
   margin-right: auto;
+}
+
+.invalid-feedback{
+  color: #dc3545;
+  font-size: 80%;
+  margin-top: 0rem;
+  width: 100%;
+  display: block;
+}
+
+#validation{
+  border-color: #dc3545;
+}
+
+.form-control{
+  margin-bottom: 0;
 }
