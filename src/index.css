@@ -378,7 +378,7 @@ main {
 .wrapper-button{
   
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between!important;
   margin: 0 40%;
 }
 .text-center{
@@ -495,4 +495,8 @@ Loading
 
 .form-control{
   margin-bottom: 0;
+}
+
+.not-hidden{
+  display: flex!important;
 }

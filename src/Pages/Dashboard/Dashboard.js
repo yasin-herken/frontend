@@ -65,7 +65,9 @@ const Dashboard = ({ user }) => {
             <p>{message3}</p>
             <p>{message4}</p>
             {message4 === "Yüksek düzeyde DEHB." && (
-              <p style={{backgroundColor: "red"}}>You should go to the doctor.</p>
+              <p style={{ backgroundColor: "red" }}>
+                You should go to the doctor.
+              </p>
             )}
           </div>
         </div>
@@ -95,7 +97,7 @@ const Dashboard = ({ user }) => {
               </Step>
             );
           })}
-          <div className="wrapper-button">
+          <div className="wrapper-button not-hidden">
             {active1 !== 1 && (
               <button
                 className="prev-question"
@@ -114,7 +116,7 @@ const Dashboard = ({ user }) => {
             )}
           </div>
         </MultiStepForm>
-
+        
         <MultiStepForm activeStep={active2}>
           {questions2.map((question, index) => {
             return (
@@ -141,7 +143,7 @@ const Dashboard = ({ user }) => {
               </Step>
             );
           })}
-          <div className="wrapper-button" key={101}>
+          <div className="wrapper-button not-hidden" key={101}>
             {active2 !== 1 && (
               <button
                 className="prev-question"
@@ -186,7 +188,7 @@ const Dashboard = ({ user }) => {
               </Step>
             );
           })}
-          <div className="wrapper-button" key={"100"}>
+          <div className="wrapper-button not-hidden" key={"100"}>
             {active3 !== 1 && (
               <button
                 className="prev-question"
