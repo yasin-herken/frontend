@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { publicRequest } from "../../Requests/RequestsMethods";
-function formatDate(date) {
-    return new Date(date).toLocaleDateString()
-  }
+import { useDispatch } from "react-redux";
+import { login } from "../../Features/User/userSlice";
+import {  useNavigate } from "react-router-dom";
+
 const schema = yup
   .object({
     email: yup.string().email().required("Email is required"),
@@ -20,6 +21,8 @@ const schema = yup
   })
   .required();
 const Register = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -38,14 +41,17 @@ const Register = () => {
         gender: object.gender,
         password: object.password,
       });
-      console.log(res);
+      if(res?.data?.success){
+        dispatch(login(res.data));
+        navigate("/")
+      }
     } catch (err) {
       console.log(err);
     }
   };
   React.useEffect(() => {
     console.log(errors);
-  }, [errors]);
+    }, [errors]);
   return (
     <main className="d-flex w-100" style={{ backgroundColor: "white" }}>
       <div className="container d-flex flex-column">

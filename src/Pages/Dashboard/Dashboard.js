@@ -6,6 +6,9 @@ import { MultiStepForm, Step } from "react-multi-form";
 import { questions, answers } from "../../questions";
 import { Dialog } from "primereact/dialog";
 import { publicRequest } from "../../Requests/RequestsMethods";
+import { useDispatch } from "react-redux";
+import { logout } from "../../Features/User/userSlice";
+import { useNavigate } from "react-router-dom";
 var stepQuestions = questions.filter(
   (question, index) => index % 2 === 1 && question
 );
@@ -15,9 +18,11 @@ var questions2 = stepQuestions.slice(9, 18);
 var questions3 = stepQuestions.slice(18, 48);
 const Dashboard = ({ user }) => {
   const [visible, setVisible] = React.useState(false);
+
   const [active1, setActive1] = React.useState(1);
   const [active2, setActive2] = React.useState(1);
   const [active3, setActive3] = React.useState(1);
+
   const [sum1, setSum1] = React.useState(new Array(9).fill(0));
   const [sum2, setSum2] = React.useState(new Array(9).fill(0));
   const [sum3, setSum3] = React.useState(new Array(30).fill(0));
@@ -27,6 +32,8 @@ const Dashboard = ({ user }) => {
   const [message3, setMessage3] = React.useState("");
   const [message4, setMessage4] = React.useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const submitHandler = async () => {
     try {
       const res = await publicRequest.post("/dehb", {
@@ -35,7 +42,6 @@ const Dashboard = ({ user }) => {
         question2: sum2.reduce((prev, curr) => prev + curr, 0),
         question3: sum3.reduce((prev, curr) => prev + curr, 0),
       });
-      console.log(res);
       if (res?.data?.success) {
         setVisible(true);
         setMessage1(res?.data?.data[0].value);
@@ -73,6 +79,22 @@ const Dashboard = ({ user }) => {
         </div>
       </Dialog>
       <div className="container" style={{ background: "transparent" }}>
+        <div className="row">
+          <div className="col-12">
+            <h1 className="text-center">ADHD Test</h1>
+            <h2 className="text-center">Welcome {user?.username}</h2>
+            <div
+              className="text-center close-btn"
+              style={{width:"100px"}}
+              onClick={() => {
+                dispatch(logout());
+                navigate("/login");
+              }}
+            >
+              Logout
+            </div>
+          </div>
+        </div>
         <MultiStepForm activeStep={active1}>
           {questions1.map((question, index) => {
             return (
@@ -116,7 +138,7 @@ const Dashboard = ({ user }) => {
             )}
           </div>
         </MultiStepForm>
-        
+
         <MultiStepForm activeStep={active2}>
           {questions2.map((question, index) => {
             return (
