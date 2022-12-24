@@ -82,10 +82,15 @@ const Dashboard = ({ user }) => {
         <div className="row">
           <div className="col-12">
             <h1 className="text-center">ADHD Test</h1>
-            <h2 className="text-center">Welcome {user?.username}</h2>
+            <h2 className="text-center">
+              Welcome{" "}
+              {typeof user?.username === "string"
+                ? user?.username.toUpperCase()
+                : null}
+            </h2>
             <div
               className="text-center close-btn"
-              style={{width:"100px"}}
+              style={{ width: "100px" }}
               onClick={() => {
                 dispatch(logout());
                 navigate("/login");
